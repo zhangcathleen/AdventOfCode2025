@@ -1,27 +1,39 @@
 #!/usr/bin/env python3
 
 import sys
+from collections import deque
 
 
-# parse the puzzle input file strings
+# parse the puzzle list of strings
 def parse_puzzle(content):
-    dial = 50
-    for char in content:
-        rep = repr(char)
-        print(rep)
-'''        if rep == "L":
-            # TODO negative
-        elif rep == "R":
-            # TODO positive
-        elif rep == "'\n'":
-            # TODO next rotation string of numbers to integers
-        else:
-            # TODO numbers add to a string of numbers
-'''
-# open puzzle input file
+    dial = 50 # starting position of dial is 50
+    sign = 1 # positive
+    safe = deque(range(100)) # is a list [0 ... 99]
+    safe.rotate(dial)
+    password = 0
+
+    for turn in content:
+        line = turn.rstrip()
+
+        if turn[0] == 'L':
+            sign = 1
+        elif turn[0] == "R":
+            sign = -1
+        
+        str_num = line[1:]
+        number = int(str_num) * sign
+        safe.rotate(number) 
+        dial = safe[0] # where the position of the dial is now
+        
+        if dial == 0:
+            password += 1
+    
+    return password
+
+# open puzzle input file and returns a list of the rotations
 def open_puzzle(args):
     file = open(sys.argv[1], "r")
-    content = file.read()
+    content = file.readlines()
     file.close()
     return content
 
@@ -31,7 +43,8 @@ def take_input():
         print("add file with puzzle input please")
     else:
         content = open_puzzle(sys.argv)
-        parse_puzzle(content)
+        pwd = parse_puzzle(content)
+        print(pwd)
 
 take_input()
 print("hello world")
