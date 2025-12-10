@@ -21,31 +21,31 @@ def parse_puzzle(content):
 
         if turn[0] == 'L': # towards lower numbers - positive
             sign = 1
-            print("left")
         elif turn[0] == "R": # towards higher numbers - negative
             sign = -1
-            print("right")
         
         str_num = line[1:]
-        number = int(str_num) * sign
-        print(number)
+        number = int(str_num)
+        # print(f"at {dial} turn {number} * {sign}")
 
-        # TODO can't figure out how to calculate when the dial points at zero
-        # if dial - number < -1 :
-        #     password += 1
-        #     print("once less than 0")
-        # elif dial - number > 100 :
-        #     password += 1
-        #     print("once greater than 100")
+        # 0x434C49434B method ( click in hex )
+        if dial != 0:
+            if sign == 1: # if turning left
+                if dial - number < 0 : # going negative passes 0
+                    password += 1
+                    print(f"turned left {number}, passed 0")
+            elif sign == -1: # if turning right
+                if dial + number > 99: # passes 0
+                    password += 1
+                    print(f"turned right {number}, passed 0")
+        else:
+            password += 1
 
-        safe.rotate(number) 
+        safe.rotate(number * sign) 
         dial = safe[0] # where the position of the dial is now
         
-        # print(f"turn {number} clicks to get to {dial}")
-
-        if dial == 0:
-            password += 1
-            print("dial at zero")
+        # if dial == 0:
+        #     password += 1
     
     return password
 
