@@ -28,18 +28,22 @@ def parse_puzzle(content):
         number = int(str_num)
         # print(f"at {dial} turn {number} * {sign}")
 
+        # safe.rotate(number * sign) 
+        # dial = safe[0] # where the position of the dial is now
+
         # 0x434C49434B method ( click in hex )
         if dial != 0:
-            if sign == 1: # if turning left
+            if sign > 0: # if turning left, sign is 1
                 if dial - number < 0 : # going negative passes 0
                     password += 1
                     print(f"turned left {number}, passed 0")
-            elif sign == -1: # if turning right
+            else: # if turning right, sign is -1
                 if dial + number > 99: # passes 0
                     password += 1
                     print(f"turned right {number}, passed 0")
         else:
             password += 1
+            print(f"dial is at 0 : {dial}")
 
         safe.rotate(number * sign) 
         dial = safe[0] # where the position of the dial is now
