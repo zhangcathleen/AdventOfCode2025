@@ -6,27 +6,46 @@ from collections import deque
 
 # parse the puzzle list of strings
 def parse_puzzle(content):
-    dial = 50 # starting position of dial is 50
-    sign = 1 # positive
     safe = deque(range(100)) # is a list [0 ... 99]
-    safe.rotate(dial)
+
+    dial = 50 # starting position of dial is 50
+    safe.rotate(dial) 
+    # rotate positively decreases numbers - left
+    # rotate negatively increases numbers - right
+
+    sign = -1
     password = 0
 
     for turn in content:
         line = turn.rstrip()
 
-        if turn[0] == 'L':
+        if turn[0] == 'L': # towards lower numbers - positive
             sign = 1
-        elif turn[0] == "R":
+            print("left")
+        elif turn[0] == "R": # towards higher numbers - negative
             sign = -1
+            print("right")
         
         str_num = line[1:]
         number = int(str_num) * sign
+        print(number)
+
+        # TODO can't figure out how to calculate when the dial points at zero
+        # if dial - number < -1 :
+        #     password += 1
+        #     print("once less than 0")
+        # elif dial - number > 100 :
+        #     password += 1
+        #     print("once greater than 100")
+
         safe.rotate(number) 
         dial = safe[0] # where the position of the dial is now
         
+        # print(f"turn {number} clicks to get to {dial}")
+
         if dial == 0:
             password += 1
+            print("dial at zero")
     
     return password
 
