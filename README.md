@@ -2,6 +2,16 @@
 
 This is my solution to the advent of code challenge https://adventofcode.com/
 
+## Day 2
+Part 1 : 
+- Remembered how tuples work. Learned how to add tuples 
+- There's probably a more efficient way to go through the loop than changing from string -> list -> tuples of integers -> string -> list -> integer
+- Also learned python has sum()
+
+In part 2 :
+- Learned there's math.ceil - rounds numbers up. Didn't end up using it
+- It might be most efficient to find the factors for the number of digits in the id
+
 ## Day 1
 
 - Learned python has an object type called deques - like a list that can rotate
