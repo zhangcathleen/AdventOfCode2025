@@ -7,46 +7,68 @@ from collections import deque
 # parse the puzzle list of strings
 def parse_puzzle(content):
     safe = deque(range(100)) # is a list [0 ... 99]
-
     dial = 50 # starting position of dial is 50
-    safe.rotate(dial) 
-    # rotate positively decreases numbers - left
-    # rotate negatively increases numbers - right
+    safe.rotate(dial)   # rotate positively decreases numbers - left
+                        # rotate negatively increases numbers - right
 
-    sign = -1
+    left = True # right = False || sign = -1
     password = 0
 
     for turn in content:
+        print(f"beginning of loop. dial is at {dial}")
         line = turn.rstrip()
+        print(f"{line}")
 
-        if turn[0] == 'L': # towards lower numbers - positive
-            sign = 1
-        elif turn[0] == "R": # towards higher numbers - negative
-            sign = -1
-        
         str_num = line[1:]
         number = int(str_num)
+
+        if line[0] == 'L': # towards lower numbers - positive
+            left = True
+            safe.rotate(number)
+        elif line[0] == "R": # towards higher numbers - negative
+            left = False
+            safe.rotate(number * -1)
+        print(f"the safe is at {safe[0]}")
+
+        if safe[0] == 0:
+            password += 1
+            print(f"dial is pointed at 0 {safe[0]}")
+        elif dial != 0:
+            if dial - number < 0 and left:
+                password += 1
+                print(f"left turn pointed at 0 : {dial} - {number} = {dial-number}")
+            # elif dial - safe[0] < 0 and not left:
+            #     print(f"{dial} - {safe[0]} < 0 and not left")
+            elif dial + number > 99 and not left :
+                password += 1
+                print(f"right turn pointed at 0 : {dial} + {number} = {dial+number}")
+            # elif dial + safe[0] > 99 and left :
+            #     print(f"{dial} - {safe[0]} < 0 and left")
+            # else :
+            #     print(f"something wrong?")
+        
+        dial = safe[0] # where the position of the dial is now
+
         # print(f"at {dial} turn {number} * {sign}")
 
         # safe.rotate(number * sign) 
         # dial = safe[0] # where the position of the dial is now
 
         # 0x434C49434B method ( click in hex )
-        if dial != 0:
-            if sign > 0: # if turning left, sign is 1
-                if dial - number < 0 : # going negative passes 0
-                    password += 1
-                    print(f"turned left {number}, passed 0")
-            else: # if turning right, sign is -1
-                if dial + number > 99: # passes 0
-                    password += 1
-                    print(f"turned right {number}, passed 0")
-        else:
-            password += 1
-            print(f"dial is at 0 : {dial}")
+        # if dial != 0:
+        #     if left: # if turning left, sign is 1
+        #         if dial - number < 0 : # going negative passes 0
+        #             password += 1
+        #             print(f"turned left {number}, passed 0")
+        #     else: # if turning right, sign is -1
+        #         if dial + number > 99: # passes 0
+        #             password += 1
+        #             print(f"turned right {number}, passed 0")
+        # else:
+        #     password += 1
+        #     print(f"dial is at 0 : {dial}")
 
-        safe.rotate(number * sign) 
-        dial = safe[0] # where the position of the dial is now
+        # safe.rotate(number * sign) 
         
         # if dial == 0:
         #     password += 1
