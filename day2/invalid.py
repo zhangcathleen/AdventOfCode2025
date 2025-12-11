@@ -23,9 +23,12 @@ def seq_repeated( c ):
     # example : 123 123 123
     #           21 21 21 21 21
     #           1 1 1 1 1 1 1
-    while counter <= c_half :
+    while counter <= c_half : # sequences less than half of the number of digits bc is_repeated covers the repeat twice
         if c_len % counter == 0 :
             seq = c_str[ 0:counter ]
+
+            while 
+            
         next_seq = c_str[ counter:counter*2 ]
         counter += 1
 
