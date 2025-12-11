@@ -2,7 +2,6 @@
 
 import sys
 
-
 # returns the factors of given number
 def factors( c ):
     result = set()
@@ -21,13 +20,12 @@ def seq_repeated( c ):
     c_half = int( c_len / 2 )
     counter = 1
 
-    f = factors(c_len)
-
     # example : 123 123 123
     #           21 21 21 21 21
     #           1 1 1 1 1 1 1
-    while counter <= c_half:
-        seq = c_str[ 0:counter ]
+    while counter <= c_half :
+        if c_len % counter == 0 :
+            seq = c_str[ 0:counter ]
         next_seq = c_str[ counter:counter*2 ]
         counter += 1
 
@@ -75,7 +73,7 @@ def split_ranges( s ):
         tuple_range = ()
 
         for item in range:
-            num_item = int( item) 
+            num_item = int(item) 
             a = ( num_item, )
             tuple_range = tuple_range + a
 
@@ -96,7 +94,7 @@ def take_input():
     if len(sys.argv) == 1:
         print("add file with puzzle input please")
     else :
-        content = open_puzzle(sys.argv[0])
+        content = open_puzzle(sys.argv[1])
         ids = split_ranges(content)
         repeated = find_repeats(ids)
         print(sum(repeated))
