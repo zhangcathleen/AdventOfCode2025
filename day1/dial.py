@@ -20,7 +20,9 @@ def parse_puzzle(content):
         print(f"{line}")
 
         str_num = line[1:]
-        number = int(str_num)
+        num = int(str_num)
+
+        rotations, number = divmod(num, 100)
 
         if line[0] == 'L': # towards lower numbers - positive
             left = True
@@ -37,42 +39,11 @@ def parse_puzzle(content):
             if dial - number < 0 and left:
                 password += 1
                 print(f"left turn pointed at 0 : {dial} - {number} = {dial-number}")
-            # elif dial - safe[0] < 0 and not left:
-            #     print(f"{dial} - {safe[0]} < 0 and not left")
             elif dial + number > 99 and not left :
                 password += 1
                 print(f"right turn pointed at 0 : {dial} + {number} = {dial+number}")
-            # elif dial + safe[0] > 99 and left :
-            #     print(f"{dial} - {safe[0]} < 0 and left")
-            # else :
-            #     print(f"something wrong?")
         
         dial = safe[0] # where the position of the dial is now
-
-        # print(f"at {dial} turn {number} * {sign}")
-
-        # safe.rotate(number * sign) 
-        # dial = safe[0] # where the position of the dial is now
-
-        # 0x434C49434B method ( click in hex )
-        # if dial != 0:
-        #     if left: # if turning left, sign is 1
-        #         if dial - number < 0 : # going negative passes 0
-        #             password += 1
-        #             print(f"turned left {number}, passed 0")
-        #     else: # if turning right, sign is -1
-        #         if dial + number > 99: # passes 0
-        #             password += 1
-        #             print(f"turned right {number}, passed 0")
-        # else:
-        #     password += 1
-        #     print(f"dial is at 0 : {dial}")
-
-        # safe.rotate(number * sign) 
-        
-        # if dial == 0:
-        #     password += 1
-    
     return password
 
 # open puzzle input file and returns a list of the rotations
@@ -94,21 +65,15 @@ def take_input():
 take_input()
 print("hello world")
 
-
 '''
 Dial 0 - 99 :
     ... 95 96 97 98 99 0 1 2 3 ...
-
 Dial starts at 50
-
 Ex : 
     Dial at 5 ( D5 ) + Rotation of L10 ( L10 ) = D95
     D95 + R5 = D0
-
 Password = number of times dial is at D0 after any rotation in the sequence
-
 Test :
-
 L68
 L30
 R48
@@ -119,7 +84,5 @@ L1
 L99
 R14
 L82
-
     Password = 3
-
 '''
