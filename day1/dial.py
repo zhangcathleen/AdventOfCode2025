@@ -24,6 +24,8 @@ def parse_puzzle(content):
 
         rotations, number = divmod(num, 100)
 
+        password += rotations
+
         if line[0] == 'L': # towards lower numbers - positive
             left = True
             safe.rotate(number)
