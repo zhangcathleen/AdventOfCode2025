@@ -15,15 +15,14 @@ def parse_puzzle(content):
     password = 0
 
     for turn in content:
-        print(f"beginning of loop. dial is at {dial}")
+        # print(f"beginning of loop. dial is at {dial}")
         line = turn.rstrip()
-        print(f"{line}")
+        # print(f"{line}")
 
         str_num = line[1:]
         num = int(str_num)
 
         rotations, number = divmod(num, 100)
-
         password += rotations
 
         if line[0] == 'L': # towards lower numbers - positive
@@ -32,19 +31,18 @@ def parse_puzzle(content):
         elif line[0] == "R": # towards higher numbers - negative
             left = False
             safe.rotate(number * -1)
-        print(f"the safe is at {safe[0]}")
+        # print(f"the safe is at {safe[0]}")
 
         if safe[0] == 0:
             password += 1
-            print(f"dial is pointed at 0 {safe[0]}")
+            # print(f"dial is pointed at 0 {safe[0]}")
         elif dial != 0:
             if dial - number < 0 and left:
                 password += 1
-                print(f"left turn pointed at 0 : {dial} - {number} = {dial-number}")
+                # print(f"left turn pointed at 0 : {dial} - {number} = {dial-number}")
             elif dial + number > 99 and not left :
                 password += 1
-                print(f"right turn pointed at 0 : {dial} + {number} = {dial+number}")
-        
+                # print(f"right turn pointed at 0 : {dial} + {number} = {dial+number}")
         dial = safe[0] # where the position of the dial is now
     return password
 
