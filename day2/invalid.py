@@ -3,33 +3,62 @@
 import sys
 
 
+# returns the factors of given number
+def factors( c ):
+    result = set()
+
+    for i in range( 1, c+1 ):
+        if c % i == 0:
+            result.add((c, i))
+
+    return result
+
+# returns true if given number has some sequence of digits repeated at least twice
+def seq_repeated( c ):
+
+    c_str = str( c )
+    c_len = len( c_str )
+    c_half = int( c_len / 2 )
+    counter = 1
+
+    f = factors(c_len)
+
+    # example : 123 123 123
+    #           21 21 21 21 21
+    #           1 1 1 1 1 1 1
+    while counter <= c_half:
+        seq = c_str[ 0:counter ]
+        next_seq = c_str[ counter:counter*2 ]
+        counter += 1
+
+
+
+
+
 # returns true if given number is a sequence of digits repeated twice
-def is_repeated(c):
+def is_repeated( c ):
     
-    c_str = str(c)
-    c_len = len(c_str)
-    c_half = int(c_len / 2)
+    c_str = str( c )
+    c_len = len( c_str )
+    c_half = int( c_len / 2 )
 
-    first_half = c_str[ 0 : c_half ]
-    second_half = c_str[ c_half : c_len ]
+    first_half = c_str[ 0:c_half ]
+    second_half = c_str[ c_half:c_len ]
     return first_half == second_half
-    
-
-
 
 # find invalid ids from list of tuples
 # invalid id = sequence of digits repeated twice
-def find_repeats(ids):
+def find_repeats( ids ):
     repeated = []
 
     for id in ids:
-        first = id[0]
-        last = id[1]
+        first = id[ 0 ]
+        last = id[ 1 ]
         counter = first
 
         while counter <= last:
-            if is_repeated(counter):
-                repeated.append(counter)
+            if is_repeated( counter ) or seq_repeated( counter ):
+                repeated.append( counter )
             counter += 1
 
     return repeated
@@ -37,27 +66,27 @@ def find_repeats(ids):
 
 # split the string of product ID ranges
 # put them into a list of integer tuples
-def split_ranges(s):
-    ranges = s.split(",") # ranges is a list of strings
+def split_ranges( s ):
+    ranges = s.split( "," ) # ranges is a list of strings
     ids = []
 
     for r in ranges:
-        range = r.split("-")
+        range = r.split( "-" )
         tuple_range = ()
 
         for item in range:
-            num_item = int(item)
-            a = (num_item,)
+            num_item = int( item) 
+            a = ( num_item, )
             tuple_range = tuple_range + a
 
-        ids.append(tuple_range)
+        ids.append( tuple_range )
 
     return ids
     
 
 # open puzzle input file and returns a list of the rotations
-def open_puzzle(args):
-    file = open(sys.argv[1], "r")
+def open_puzzle( arg ):
+    file = open( arg, "r" )
     content = file.readline()
     file.close()
     return content
@@ -67,7 +96,7 @@ def take_input():
     if len(sys.argv) == 1:
         print("add file with puzzle input please")
     else :
-        content = open_puzzle(sys.argv)
+        content = open_puzzle(sys.argv[0])
         ids = split_ranges(content)
         repeated = find_repeats(ids)
         print(sum(repeated))
